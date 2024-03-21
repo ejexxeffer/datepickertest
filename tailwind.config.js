@@ -5,28 +5,18 @@ export default {
     extend: {
       columns: {
         '6xs': '10rem',
-        '5xs': '12rem',
+        '5xs': '12rem'
       },
       height: {
-        inherit: 'inherit',
+        inherit: 'inherit'
       },
       width: {
-        inherit: 'inherit',
+        inherit: 'inherit'
       },
       scale: {
-        98: '0.98',
-      },
-    },
+        98: '0.98'
+      }
+    }
   },
-  plugins: [require('@tailwindcss/typography'), require('daisyui')],
-  daisyui: {
-    styled: true,
-    themes: true,
-    base: true,
-    utils: true,
-    logs: true,
-    rtl: false,
-    prefix: '',
-    darkTheme: 'coffee',
-  },
+  plugins: []
 }

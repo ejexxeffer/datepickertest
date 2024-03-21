@@ -11,28 +11,29 @@ import eslintPlugin from 'vite-plugin-eslint2'
 dns.setDefaultResultOrder('verbatim')
 export default defineConfig({
   server: {
-    // https: {},
     host: true,
-    // changeOrigin: true,
-    port: 8080,
+    port: 8080
   },
   resolve: {
     alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url)),
-    },
+      '@': fileURLToPath(new URL('./src', import.meta.url))
+    }
   },
   test: {
     environment: 'jsdom',
     exclude: [...configDefaults.exclude, 'e2e/*'],
-    root: fileURLToPath(new URL('./', import.meta.url)),
+    root: fileURLToPath(new URL('./', import.meta.url))
   },
-  plugins: [eslintPlugin({fix: true}), mkcert(), vue()],
+  plugins: [eslintPlugin({ fix: true }), mkcert(), vue()],
   build: {
     rollupOptions: {
       input: 'src/main.js',
       output: {
-        intro: 'console.log("Запуск Vite!");',
-      },
-    },
+        intro: 'console.log("Запуск Vite!");'
+      }
+    }
   },
+  optimizeDeps: {
+    entries: []
+  }
 })
