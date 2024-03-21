@@ -5,11 +5,11 @@
   },
   "extends": [
     "eslint:recommended",
-    "plugin:vue/recommended",
-    // "standard-with-typescript",
     "plugin:vue/vue3-essential",
     "plugin:prettier/recommended",
-    "prettier"
+    "prettier",
+    "@vue/eslint-config-typescript",
+    "@vue/eslint-config-prettier/skip-formatting"
   ],
   "overrides": [],
   "parserOptions": {
@@ -20,13 +20,5 @@
   "rules": {
     "vue/require-default-prop": "off",
     "vue/no-reserved-component-names": "off"
-  },
-  "ignorePatterns": [
-    "*/workbox-*.js",
-    "*/sw.*",
-    "*/registerSW.js",
-    "/workbox-*.js",
-    "/sw.*",
-    "/registerSW.js"
-  ]
+  }
 }
