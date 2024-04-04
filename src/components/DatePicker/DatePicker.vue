@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { TCalendarArr } from './Types/UtilTypes'
+import type { TCalendarArr } from './DatePickerTypes'
 import { calcArray } from '@/utils/calcArray'
 import { daysInMonth } from '@/utils/daysInMonth'
 import { getDayWeek } from '@/utils/getDayWeek'
