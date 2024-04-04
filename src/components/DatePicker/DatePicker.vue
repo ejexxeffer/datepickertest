@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import type { TCalendarArr } from './DatePickerTypes'
-import { calcArray } from '@/utils/calcArray'
-import { daysInMonth } from '@/utils/daysInMonth'
-import { getDayWeek } from '@/utils/getDayWeek'
+import { calcArray } from './utils/calcArray'
+import { daysInMonth } from './utils/daysInMonth'
+import { getDayWeek } from './utils/getDayWeek'
 import { onMounted, ref, watch } from 'vue'
 
 const props = withDefaults(
@@ -221,3 +221,4 @@ watch(emptySlots, (newEmptySlots) => {
   <br />
   <br />
 </template>
+@/components/DatePicker/utils/calcArray@/components/DatePicker/utils/daysInMonth@/components/DatePicker/utils/getDayWeek
