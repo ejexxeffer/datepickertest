@@ -183,7 +183,7 @@ watch(emptySlots, (newEmptySlots) => {
     </div>
     <button @click="$emit('right', month + 1)">right</button>
   </div>
-  <div class="flex justify-between">
+  <div class="flex justify-between" data-test="datepicker">
     <p v-for="(value, i) in week" :key="i">{{ value }}</p>
   </div>
   <br />

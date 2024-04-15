@@ -21,6 +21,11 @@ export default defineConfig({
   },
   test: {
     environment: 'jsdom',
+    pool: 'forks',
+    coverage: {
+      provider: 'v8',
+      exclude: [...configDefaults.exclude, 'public']
+    },
     exclude: [...configDefaults.exclude, 'e2e/*'],
     root: fileURLToPath(new URL('./', import.meta.url))
   },
