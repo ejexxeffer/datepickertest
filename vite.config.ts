@@ -3,7 +3,7 @@
 import { fileURLToPath, URL } from 'url'
 import { defineConfig } from 'vite'
 import { configDefaults } from 'vitest/config'
-import mkcert from 'vite-plugin-mkcert'
+// import mkcert from 'vite-plugin-mkcert'
 import vue from '@vitejs/plugin-vue'
 import dns from 'dns'
 import eslintPlugin from 'vite-plugin-eslint2'
@@ -29,7 +29,8 @@ export default defineConfig({
     exclude: [...configDefaults.exclude, 'e2e/*'],
     root: fileURLToPath(new URL('./', import.meta.url))
   },
-  plugins: [eslintPlugin({ fix: true }), mkcert(), vue()],
+  // plugins: [eslintPlugin({ fix: true }), mkcert(), vue()],
+  plugins: [eslintPlugin({ fix: true }), vue()],
   build: {
     rollupOptions: {
       input: 'src/main.js',
