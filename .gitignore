@@ -24,6 +24,7 @@ dist-ssr
 *.sw?
 
 #extra paths
+/coverage
 /dist
 /dev-dist
 /build
