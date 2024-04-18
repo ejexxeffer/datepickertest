@@ -20,7 +20,7 @@ const setStart = (value?: Iweek) => {
 
 <template>
   <header>
-    <h1>This is The datepicker</h1>
+    <h1 data-test="app">This is The datepicker</h1>
   </header>
 
   <main>

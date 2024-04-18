@@ -1,4 +1,4 @@
-interface IDay {
+export interface IDay {
   id: number
   value: number | null
 }

@@ -3,7 +3,7 @@
 import { fileURLToPath, URL } from 'url'
 import { defineConfig } from 'vite'
 import { configDefaults } from 'vitest/config'
-// import mkcert from 'vite-plugin-mkcert'
+import mkcert from 'vite-plugin-mkcert'
 import vue from '@vitejs/plugin-vue'
 import dns from 'dns'
 import eslintPlugin from 'vite-plugin-eslint2'
@@ -24,13 +24,19 @@ export default defineConfig({
     pool: 'forks',
     coverage: {
       provider: 'v8',
-      exclude: [...configDefaults.exclude, 'public']
+      exclude: [
+        ...configDefaults.exclude,
+        'public',
+        'src/main.ts',
+        '.eslintrc.cjs',
+        'postcss.config.js',
+        'tailwind.config.js'
+      ]
     },
     exclude: [...configDefaults.exclude, 'e2e/*'],
     root: fileURLToPath(new URL('./', import.meta.url))
   },
-  // plugins: [eslintPlugin({ fix: true }), mkcert(), vue()],
-  plugins: [eslintPlugin({ fix: true }), vue()],
+  plugins: [eslintPlugin({ fix: true }), mkcert(), vue()],
   build: {
     rollupOptions: {
       input: 'src/main.js',
