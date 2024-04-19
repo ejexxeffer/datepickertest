@@ -24,6 +24,8 @@ export default defineConfig({
     pool: 'forks',
     coverage: {
       provider: 'v8',
+      enabled: true,
+      reporter: ['html', 'json'],
       exclude: [
         ...configDefaults.exclude,
         'public',

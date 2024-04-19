@@ -75,6 +75,7 @@ watch(
     day.value = props.date.getDate()
     month.value = props.date.getMonth()
     year.value = props.date.getFullYear()
+    emit('day', day.value)
   }
 )
 watch(month, (newMonth) => {
@@ -138,7 +139,7 @@ watch(arrays, (newArrays) => {
 </script>
 
 <template>
-  <div class="flex justify-between">
+  <div class="flex justify-between" data-test="head">
     <button @click="$emit('left', month - 1)">left</button>
     <div class="flex justify-between gap-x-2">
       <p>{{ month }}</p>
