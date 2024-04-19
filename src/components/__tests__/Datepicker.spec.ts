@@ -107,14 +107,4 @@ describe('Datepicker', () => {
     expect(wrapper.emitted().right[0]).toEqual([2])
     wrapper.unmount()
   })
-  // it('watch', async () => {
-  //   const wrapper = mount(DatePicker, {
-  //     props: { date: new Date(2024, 1) }
-  //   })
-  //   await flushPromises()
-  //   expect(wrapper.vm.month).toEqual(1)
-  //   expect(wrapper.vm.day).toEqual(1)
-  //   expect(wrapper.vm.year).toEqual(2024)
-  //   wrapper.unmount()
-  // })
 })
