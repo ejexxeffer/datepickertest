@@ -1,7 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { flushPromises, mount } from '@vue/test-utils'
 import DatePicker from '@/components/DatePicker/DatePicker.vue'
-import type { idText } from 'typescript'
 
 describe('Datepicker', () => {
   it('renders properly week started 1', async () => {
