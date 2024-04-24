@@ -4,7 +4,7 @@ export const calcEmptySlots = (
   daysInMonth: number,
   year: number,
   month: number,
-  weekStarted: 0 | 1,
+  weekStarted: boolean,
   before: boolean,
   after: boolean
 ): number[] => {

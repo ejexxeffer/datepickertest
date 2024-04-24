@@ -6,64 +6,70 @@ import { daysInMonth } from './utils/daysInMonth'
 import { onMounted, ref, watch } from 'vue'
 import { previousNext } from './utils/previousNext'
 import { calcEmptySlots } from './utils/calcEmptySlots'
+import DateInput from './components/DateInput.vue'
+import WeekNames from './components/WeekNames.vue'
+import CalendarNumbers from './components/CalendarNumbers.vue'
 
 const props = withDefaults(
   defineProps<{
     date: Date
-    weekStarted?: 0 | 1
+    isoWeek?: boolean
     before?: boolean
     after?: boolean
     lang?: string
   }>(),
   {
+    isoWeek: true,
     before: true,
     after: true,
-    weekStarted: 1,
     lang: 'en'
   }
 )
+//emtits depricated need to change for one emit with Date
 const emit = defineEmits<{
   (e: 'left', value: number): void
   (e: 'right', value: number): void
   (e: 'day', value: number): void
 }>()
-const week = ref<string[]>(['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'])
 const day = ref<number>(0)
 const month = ref<number>(0)
 const year = ref<number>(2022)
+const savedDate = ref<Date>(new Date())
 const dayChosen = ref<number>(0)
 const emptySlots = ref<number[]>([0, 0])
 const previousNextArr = ref<number[][]>([[0], [0]])
 const daysInMonthAct = ref<number>(0)
+const namesArr = ref<string[]>(['none'])
 const arrays = ref<TCalendarArr>(calcArray())
 const setDayChosen = (value: number) => {
   dayChosen.value = value
 }
 onMounted(() => {
+  if (!props.isoWeek) {
+    namesArr.value = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+  }
+  if (props.isoWeek) {
+    namesArr.value = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+  }
+  savedDate.value = props.date
   day.value = props.date.getDate()
   month.value = props.date.getMonth()
   year.value = props.date.getFullYear()
-  if (props.weekStarted === 0) {
-    week.value = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
-  }
-  if (props.weekStarted === 1) {
-    week.value = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-  }
 })
 watch(
-  () => props.weekStarted,
+  () => props.isoWeek,
   () => {
-    if (props.weekStarted === 0) {
-      week.value = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+    if (!props.isoWeek) {
+      namesArr.value = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
     }
-    if (props.weekStarted === 1) {
-      week.value = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+    if (props.isoWeek) {
+      namesArr.value = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
     }
     emptySlots.value = calcEmptySlots(
       daysInMonth(year.value, month.value),
       year.value,
       month.value,
-      props.weekStarted,
+      props.isoWeek,
       props.before,
       props.after
     )
@@ -72,52 +78,42 @@ watch(
 watch(
   () => props.date,
   () => {
+    savedDate.value = props.date
     day.value = props.date.getDate()
     month.value = props.date.getMonth()
     year.value = props.date.getFullYear()
     emit('day', day.value)
   }
 )
-watch(month, (newMonth) => {
-  daysInMonthAct.value = daysInMonth(year.value, newMonth)
+watch(savedDate, (newSavedDate) => {
+  day.value = newSavedDate.getDate()
+  month.value = newSavedDate.getMonth()
+  year.value = newSavedDate.getFullYear()
+  daysInMonthAct.value = daysInMonth(
+    newSavedDate.getFullYear(),
+    newSavedDate.getMonth()
+  )
   emptySlots.value = calcEmptySlots(
     daysInMonth(year.value, month.value),
     year.value,
     month.value,
-    props.weekStarted,
+    props.isoWeek,
     props.before,
     props.after
   )
   arrays.value = calcArray(
-    newMonth,
-    year.value,
-    props.weekStarted,
-    previousNextArr.value
-  )
-})
-watch(year, (newYear) => {
-  daysInMonthAct.value = daysInMonth(newYear, month.value)
-  emptySlots.value = calcEmptySlots(
-    daysInMonth(year.value, month.value),
-    year.value,
-    month.value,
-    props.weekStarted,
-    props.before,
-    props.after
-  )
-  arrays.value = calcArray(
-    month.value,
-    newYear,
-    props.weekStarted,
+    newSavedDate.getFullYear(),
+    newSavedDate.getMonth(),
+    props.isoWeek,
     previousNextArr.value
   )
 })
 watch(emptySlots, (newEmptySlots) => {
   previousNextArr.value = previousNext(newEmptySlots, year.value, month.value)
   arrays.value = calcArray(
-    month.value,
     year.value,
-    props.weekStarted,
+    month.value,
+    props.isoWeek,
     previousNextArr.value
   )
 })
@@ -139,50 +135,30 @@ watch(arrays, (newArrays) => {
 </script>
 
 <template>
-  <div class="flex justify-between" data-test="head">
-    <button @click="$emit('left', month - 1)">left</button>
-    <div class="flex justify-between gap-x-2">
-      <p>{{ month }}</p>
-      <p>{{ year }}</p>
-    </div>
-    <button @click="$emit('right', month + 1)">right</button>
-  </div>
-  <div class="flex justify-between" data-test="week">
-    <p v-for="(value, i) in week" :key="i">{{ value }}</p>
-  </div>
+  <DateInput
+    :date="$props.date"
+    @date="
+      (value) => {
+        savedDate = value
+      }
+    "
+  />
+  <WeekNames :week="namesArr" />
   <br />
-  <div class="flex justify-between" data-test="day">
-    <div
-      v-for="(array, i) in arrays"
-      :key="i"
-      class="flex flex-col items-center"
-    >
-      <div
-        v-for="value in array"
-        class="box-border flex min-h-7 min-w-7 justify-center active:border-2 active:border-solid active:border-blue-400"
-        :class="[
-          value.id === dayChosen ? `border-2 border-solid border-blue-400` : '',
-          value.id <= emptySlots[0] ? 'text-slate-400' : '',
-          emptySlots[0] + daysInMonthAct + emptySlots[1] - value.id <
-          emptySlots[1]
-            ? 'text-slate-400'
-            : ''
-        ]"
-        :key="value.id"
-        @click="
-          () => {
-            setDayChosen(value.id)
-            if (value.value) {
-              $emit('day', value.value)
-              console.log(value.value)
-            }
-          }
-        "
-      >
-        {{ value.value }}
-      </div>
-    </div>
-  </div>
+  <CalendarNumbers
+    :arrays="arrays"
+    :day-chosen="dayChosen"
+    :empty-slots="emptySlots"
+    :daysAct="daysInMonthAct"
+    @day="
+      (value) => {
+        setDayChosen(value.id)
+        if (value.value) {
+          $emit('day', value.value)
+        }
+      }
+    "
+  />
   <br />
   <br />
 </template>

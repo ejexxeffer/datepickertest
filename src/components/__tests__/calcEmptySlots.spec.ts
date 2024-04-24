@@ -3,24 +3,24 @@ import { calcEmptySlots } from '@/components/DatePicker/utils/calcEmptySlots'
 
 describe('calcEmptySlots', () => {
   it('calcEmptySlots is empty', async () => {
-    expect(calcEmptySlots(29, 2024, 1, 0, false, false)).toEqual([0, 0])
+    expect(calcEmptySlots(29, 2024, 1, false, false, false)).toEqual([0, 0])
   })
   it('before only and week started on Sun', async () => {
-    expect(calcEmptySlots(29, 2024, 1, 0, true, false)).toEqual([4, 0])
+    expect(calcEmptySlots(29, 2024, 1, false, true, false)).toEqual([4, 0])
   })
   it('after only and week started on Sun', async () => {
-    expect(calcEmptySlots(29, 2024, 1, 0, false, true)).toEqual([0, 2])
+    expect(calcEmptySlots(29, 2024, 1, false, false, true)).toEqual([0, 2])
   })
   it('before and after and week started on Sun', async () => {
-    expect(calcEmptySlots(29, 2024, 1, 0, true, true)).toEqual([4, 2])
+    expect(calcEmptySlots(29, 2024, 1, false, true, true)).toEqual([4, 2])
   })
   it('before only and week started on Mon', async () => {
-    expect(calcEmptySlots(29, 2024, 1, 1, true, false)).toEqual([3, 0])
+    expect(calcEmptySlots(29, 2024, 1, true, true, false)).toEqual([3, 0])
   })
   it('after only and week started on Mon', async () => {
-    expect(calcEmptySlots(29, 2024, 1, 1, false, true)).toEqual([0, 3])
+    expect(calcEmptySlots(29, 2024, 1, true, false, true)).toEqual([0, 3])
   })
   it('before and after and week started on Mon', async () => {
-    expect(calcEmptySlots(29, 2024, 1, 1, true, true)).toEqual([3, 3])
+    expect(calcEmptySlots(29, 2024, 1, true, true, true)).toEqual([3, 3])
   })
 })

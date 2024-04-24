@@ -1,20 +1,14 @@
 <script setup lang="ts">
 import DatePicker from '@/components/DatePicker/DatePicker.vue'
 import { ref } from 'vue'
-type Iweek = 0 | 1
 const day = ref<number>(0)
 const setDay = (value: number) => {
   day.value = value
 }
 const date = ref<Date>(new Date(2024, 1))
-const start = ref<Iweek>(0)
-const setStart = (value?: Iweek) => {
-  if (value) {
-    start.value = value
-  }
-  if (!value) {
-    start.value = start.value === 0 ? 1 : 0
-  }
+const start = ref<boolean>(false)
+const setStart = (value?: boolean) => {
+  start.value = !start.value
 }
 </script>
 
@@ -45,7 +39,7 @@ const setStart = (value?: Iweek) => {
           console.log('day', value)
         }
       "
-      :week-started="start"
+      :isoWeek="start"
       :date="date"
     />
   </main>

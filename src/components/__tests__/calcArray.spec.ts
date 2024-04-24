@@ -55,7 +55,7 @@ describe('calcArray', () => {
   })
   it('week is started on Sunday', async () => {
     expect(
-      calcArray(1, 2024, 0, [
+      calcArray(2024, 1, false, [
         [28, 29, 30, 31],
         [1, 2]
       ])[0]
@@ -67,7 +67,7 @@ describe('calcArray', () => {
       { id: 29, value: 25 }
     ])
     expect(
-      calcArray(1, 2024, 0, [
+      calcArray(2024, 1, false, [
         [28, 29, 30, 31],
         [1, 2]
       ])[1]
@@ -79,7 +79,7 @@ describe('calcArray', () => {
       { id: 30, value: 26 }
     ])
     expect(
-      calcArray(1, 2024, 0, [
+      calcArray(2024, 1, false, [
         [28, 29, 30, 31],
         [1, 2]
       ])[2]
@@ -91,7 +91,7 @@ describe('calcArray', () => {
       { id: 31, value: 27 }
     ])
     expect(
-      calcArray(1, 2024, 0, [
+      calcArray(2024, 1, false, [
         [28, 29, 30, 31],
         [1, 2]
       ])[3]
@@ -103,7 +103,7 @@ describe('calcArray', () => {
       { id: 32, value: 28 }
     ])
     expect(
-      calcArray(1, 2024, 0, [
+      calcArray(2024, 1, false, [
         [28, 29, 30, 31],
         [1, 2]
       ])[4]
@@ -115,7 +115,7 @@ describe('calcArray', () => {
       { id: 33, value: 29 }
     ])
     expect(
-      calcArray(1, 2024, 0, [
+      calcArray(2024, 1, false, [
         [28, 29, 30, 31],
         [1, 2]
       ])[5]
@@ -127,7 +127,7 @@ describe('calcArray', () => {
       { id: 34, value: 1 }
     ])
     expect(
-      calcArray(1, 2024, 0, [
+      calcArray(2024, 1, false, [
         [28, 29, 30, 31],
         [1, 2]
       ])[6]
@@ -141,7 +141,7 @@ describe('calcArray', () => {
   })
   it('week is started on Monday', async () => {
     expect(
-      calcArray(1, 2024, 1, [
+      calcArray(2024, 1, true, [
         [29, 30, 31],
         [1, 2, 3]
       ])[0]
@@ -153,7 +153,7 @@ describe('calcArray', () => {
       { id: 29, value: 26 }
     ])
     expect(
-      calcArray(1, 2024, 1, [
+      calcArray(2024, 1, true, [
         [29, 30, 31],
         [1, 2, 3]
       ])[1]
@@ -165,7 +165,7 @@ describe('calcArray', () => {
       { id: 30, value: 27 }
     ])
     expect(
-      calcArray(1, 2024, 1, [
+      calcArray(2024, 1, true, [
         [29, 30, 31],
         [1, 2, 3]
       ])[2]
@@ -177,7 +177,7 @@ describe('calcArray', () => {
       { id: 31, value: 28 }
     ])
     expect(
-      calcArray(1, 2024, 1, [
+      calcArray(2024, 1, true, [
         [29, 30, 31],
         [1, 2, 3]
       ])[3]
@@ -189,7 +189,7 @@ describe('calcArray', () => {
       { id: 32, value: 29 }
     ])
     expect(
-      calcArray(1, 2024, 1, [
+      calcArray(2024, 1, true, [
         [29, 30, 31],
         [1, 2, 3]
       ])[4]
@@ -201,7 +201,7 @@ describe('calcArray', () => {
       { id: 33, value: 1 }
     ])
     expect(
-      calcArray(1, 2024, 1, [
+      calcArray(2024, 1, true, [
         [29, 30, 31],
         [1, 2, 3]
       ])[5]
@@ -213,7 +213,7 @@ describe('calcArray', () => {
       { id: 34, value: 2 }
     ])
     expect(
-      calcArray(1, 2024, 1, [
+      calcArray(2024, 1, true, [
         [29, 30, 31],
         [1, 2, 3]
       ])[6]

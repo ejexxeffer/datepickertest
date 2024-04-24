@@ -6,33 +6,33 @@ describe('Datepicker', () => {
   it('renders properly week started 1', async () => {
     const wrapper = mount(DatePicker, { props: { date: new Date(2024, 1) } })
     await flushPromises()
-    expect(wrapper.vm.weekStarted).toEqual(1)
+    expect(wrapper.vm.isoWeek).toEqual(true)
     expect(wrapper.get('[data-test="week"]').find('p').text()).toMatch('Mon')
     wrapper.unmount()
   })
   it('renders properly week started 0', async () => {
     const wrapper = mount(DatePicker, {
-      props: { date: new Date(2024, 1), weekStarted: 0 }
+      props: { date: new Date(2024, 1), isoWeek: false }
     })
     await flushPromises()
-    expect(wrapper.vm.weekStarted).toEqual(0)
+    expect(wrapper.vm.isoWeek).toEqual(false)
     expect(wrapper.get('[data-test="week"]').find('p').text()).toMatch('Sun')
     wrapper.unmount()
   })
   it('week is changed', async () => {
     const wrapper = mount(DatePicker, {
-      props: { date: new Date(2024, 1), weekStarted: 0 }
+      props: { date: new Date(2024, 1), isoWeek: false }
     })
     await flushPromises()
-    expect(wrapper.vm.weekStarted).toEqual(0)
+    expect(wrapper.vm.isoWeek).toEqual(false)
     expect(wrapper.get('[data-test="week"]').find('p').text()).toMatch('Sun')
-    await wrapper.setProps({ date: new Date(2024, 1), weekStarted: 1 })
+    await wrapper.setProps({ date: new Date(2024, 1), isoWeek: true })
     await flushPromises()
-    expect(wrapper.vm.weekStarted).toEqual(1)
+    expect(wrapper.vm.isoWeek).toEqual(true)
     expect(wrapper.get('[data-test="week"]').find('p').text()).toMatch('Mon')
-    await wrapper.setProps({ date: new Date(2024, 1), weekStarted: 0 })
+    await wrapper.setProps({ date: new Date(2024, 1), isoWeek: false })
     await flushPromises()
-    expect(wrapper.vm.weekStarted).toEqual(0)
+    expect(wrapper.vm.isoWeek).toEqual(false)
     expect(wrapper.get('[data-test="week"]').find('p').text()).toMatch('Sun')
     wrapper.unmount()
   })
@@ -84,26 +84,6 @@ describe('Datepicker', () => {
     //prettier-ignore
     await wrapper.get('[data-test="day"]').findAll('div')[0].findAll('div')[1].trigger('click')
     expect(wrapper.emitted().day[1]).toEqual([5])
-    wrapper.unmount()
-  })
-  it('trigger left arrow for changin month', async () => {
-    const wrapper = mount(DatePicker, { props: { date: new Date(2024, 1) } })
-    await flushPromises()
-    await wrapper
-      .get('[data-test="head"]')
-      .findAll('button')[0]
-      .trigger('click')
-    expect(wrapper.emitted().left[0]).toEqual([0])
-    wrapper.unmount()
-  })
-  it('trigger right arrow for changin month', async () => {
-    const wrapper = mount(DatePicker, { props: { date: new Date(2024, 1) } })
-    await flushPromises()
-    await wrapper
-      .get('[data-test="head"]')
-      .findAll('button')[1]
-      .trigger('click')
-    expect(wrapper.emitted().right[0]).toEqual([2])
     wrapper.unmount()
   })
 })

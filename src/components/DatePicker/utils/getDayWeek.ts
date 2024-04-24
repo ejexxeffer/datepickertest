@@ -2,8 +2,8 @@ export const getDayWeek = (
   year: number,
   month: number,
   dayOfMonth: number,
-  startOfWeek: 0 | 1
+  startOfWeek: boolean
 ): number => {
   const day = new Date(year, month, dayOfMonth).getDay()
-  return day > 0 ? day - startOfWeek : 6
+  return day > 0 ? day - Number(startOfWeek) : 6
 }

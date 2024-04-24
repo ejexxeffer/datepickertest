@@ -3,9 +3,9 @@ import { daysInMonth } from './daysInMonth'
 import { getDayWeek } from './getDayWeek'
 
 export const calcArray = (
-  month?: number,
   year?: number,
-  weekStarted?: 0 | 1,
+  month?: number,
+  weekStarted?: boolean,
   previousNextArr?: number[][]
 ): TCalendarArr => {
   const result: TCalendarArr = [[{ id: 1, value: null }]]
@@ -16,9 +16,9 @@ export const calcArray = (
     }
   }
   if (
-    month &&
+    month !== undefined &&
     year &&
-    (weekStarted === 0 || weekStarted === 1) &&
+    weekStarted !== undefined &&
     previousNextArr !== undefined
   ) {
     const day = getDayWeek(year, month, 1, weekStarted)
