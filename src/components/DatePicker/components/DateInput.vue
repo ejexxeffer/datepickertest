@@ -19,9 +19,11 @@ const props = withDefaults(
 const emit = defineEmits<{
   (e: 'date', value: Date): void
 }>()
-const savedDate = ref<Date>(new Date())
+const savedDate = ref<Date>(new Date(props.date))
 onMounted(() => {
-  savedDate.value = props.date
+  savedDate.value.setDate(props.date.getDate())
+  savedDate.value.setFullYear(props.date.getFullYear())
+  savedDate.value.setMonth(props.date.getMonth())
 })
 watch(
   () => {
@@ -29,7 +31,11 @@ watch(
   },
   () => {
     savedDate.value = props.date
-  }
+    savedDate.value.setDate(props.date.getDate())
+    savedDate.value.setFullYear(props.date.getFullYear())
+    savedDate.value.setMonth(props.date.getMonth())
+  },
+  { deep: true }
 )
 const savedDateIncrement = () => {
   const newDate = new Date(

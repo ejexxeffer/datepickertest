@@ -3,6 +3,25 @@ import { flushPromises, mount } from '@vue/test-utils'
 import DateInput from '../DatePicker/components/DateInput.vue'
 
 describe('DateInput', () => {
+  it('check that date is saved', async () => {
+    const wrapper = mount(DateInput, { props: { date: new Date(2024, 1, 2) } })
+    await flushPromises()
+    expect(
+      wrapper.get('[data-test="head"]').find('div').findAll('p')[0].text()
+    ).toMatch('1')
+    expect(
+      wrapper.get('[data-test="head"]').find('div').findAll('p')[1].text()
+    ).toMatch('2024')
+    await wrapper.setProps({ date: new Date(2022, 2, 2) })
+    await flushPromises()
+    expect(
+      wrapper.get('[data-test="head"]').find('div').findAll('p')[0].text()
+    ).toMatch('2')
+    expect(
+      wrapper.get('[data-test="head"]').find('div').findAll('p')[1].text()
+    ).toMatch('2022')
+    wrapper.unmount()
+  })
   it('trigger left arrow for changin month', async () => {
     const wrapper = mount(DateInput, { props: { date: new Date(2024, 1, 2) } })
     await flushPromises()
@@ -13,7 +32,7 @@ describe('DateInput', () => {
     expect(wrapper.emitted().date[0]).toEqual([new Date(2024, 0, 2)])
     wrapper.unmount()
   })
-  it('trigger left arrow for changin month', async () => {
+  it('trigger left arrow and check date', async () => {
     const wrapper = mount(DateInput, { props: { date: new Date(2024, 1, 1) } })
     await flushPromises()
     await wrapper
@@ -21,6 +40,44 @@ describe('DateInput', () => {
       .findAll('button')[0]
       .trigger('click')
     expect(wrapper.emitted().date[0]).toEqual([new Date(2024, 0, 1)])
+    expect(
+      wrapper.get('[data-test="head"]').find('div').findAll('p')[0].text()
+    ).toMatch('0')
+    expect(
+      wrapper.get('[data-test="head"]').find('div').findAll('p')[1].text()
+    ).toMatch('2024')
+    wrapper.unmount()
+  })
+  it('check that controls show', async () => {
+    const wrapper = mount(DateInput, {
+      props: { date: new Date(2024, 1, 1), controlsIsShow: true }
+    })
+    await flushPromises()
+    expect(
+      wrapper.get('[data-test="head"]').findAll('button')[0].classes()
+    ).toContain('text-cyan-600')
+    expect(
+      wrapper.get('[data-test="head"]').find('div').findAll('p')[0].text()
+    ).toMatch('1')
+    expect(
+      wrapper.get('[data-test="head"]').find('div').findAll('p')[1].text()
+    ).toMatch('2024')
+    wrapper.unmount()
+  })
+  it('check that controls is not show', async () => {
+    const wrapper = mount(DateInput, {
+      props: { date: new Date(2024, 1, 1), controlsIsShow: false }
+    })
+    await flushPromises()
+    expect(
+      wrapper.get('[data-test="head"]').findAll('button')[0].classes()
+    ).not.toContain('text-cyan-600')
+    expect(
+      wrapper.get('[data-test="head"]').find('div').findAll('p')[0].text()
+    ).toMatch('1')
+    expect(
+      wrapper.get('[data-test="head"]').find('div').findAll('p')[1].text()
+    ).toMatch('2024')
     wrapper.unmount()
   })
   it('trigger right arrow for changin month', async () => {

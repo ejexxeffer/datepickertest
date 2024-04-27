@@ -86,4 +86,35 @@ describe('Datepicker', () => {
     expect(wrapper.emitted().day[1]).toEqual([5])
     wrapper.unmount()
   })
+  it('trigger arrow and check date was changed in component', async () => {
+    const wrapper = mount(DatePicker, {
+      props: { date: new Date(2024, 1) }
+    })
+    await flushPromises()
+    //prettier-ignore
+    expect(
+      Number(
+        wrapper
+          .get('[data-test="day"]')
+          .findAll('div')[18]
+          .findAll('div')[0]
+          .text()
+      )
+    ).toEqual(1)
+    await wrapper
+      .get('[data-test="head"]')
+      .findAll('button')[0]
+      .trigger('click')
+    await flushPromises()
+    expect(
+      Number(
+        wrapper
+          .get('[data-test="day"]')
+          .findAll('div')[0]
+          .findAll('div')[0]
+          .text()
+      )
+    ).toEqual(1)
+    wrapper.unmount()
+  })
 })

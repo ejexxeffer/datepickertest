@@ -9,6 +9,7 @@ import { calcEmptySlots } from './utils/calcEmptySlots'
 import DateInput from './components/DateInput.vue'
 import WeekNames from './components/WeekNames.vue'
 import CalendarNumbers from './components/CalendarNumbers.vue'
+import { saveDayChose } from './utils/saveDayChose'
 
 const props = withDefaults(
   defineProps<{
@@ -34,14 +35,14 @@ const emit = defineEmits<{
 const day = ref<number>(0)
 const month = ref<number>(0)
 const year = ref<number>(2022)
-const savedDate = ref<Date>(new Date())
-const dayChosen = ref<number>(0)
+const savedDate = ref<Date>(new Date(props.date))
+const dayChosen = ref<IDay>({ id: 0, value: null })
 const emptySlots = ref<number[]>([0, 0])
 const previousNextArr = ref<number[][]>([[0], [0]])
 const daysInMonthAct = ref<number>(0)
 const namesArr = ref<string[]>(['none'])
 const arrays = ref<TCalendarArr>(calcArray())
-const setDayChosen = (value: number) => {
+const setDayChosen = (value: IDay) => {
   dayChosen.value = value
 }
 onMounted(() => {
@@ -82,8 +83,8 @@ watch(
     day.value = props.date.getDate()
     month.value = props.date.getMonth()
     year.value = props.date.getFullYear()
-    emit('day', day.value)
-  }
+  },
+  { deep: true }
 )
 watch(savedDate, (newSavedDate) => {
   day.value = newSavedDate.getDate()
@@ -119,16 +120,8 @@ watch(emptySlots, (newEmptySlots) => {
 })
 // maybe this watcher don't need with right behaviour
 watch(arrays, (newArrays) => {
-  if (!dayChosen.value) {
-    let rightDay: IDay | undefined = undefined
-    let i = 0
-    while (!rightDay) {
-      rightDay = newArrays[i].find(({ value }) => {
-        return value === day.value
-      })
-      i++
-    }
-    setDayChosen(rightDay.id)
+  if (dayChosen.value.id !== saveDayChose(newArrays, day.value).id) {
+    setDayChosen(saveDayChose(arrays.value, day.value))
     emit('day', day.value)
   }
 })
@@ -136,7 +129,7 @@ watch(arrays, (newArrays) => {
 
 <template>
   <DateInput
-    :date="$props.date"
+    :date="savedDate"
     @date="
       (value) => {
         savedDate = value
@@ -147,12 +140,13 @@ watch(arrays, (newArrays) => {
   <br />
   <CalendarNumbers
     :arrays="arrays"
-    :day-chosen="dayChosen"
+    :day-chosen="dayChosen.id"
     :empty-slots="emptySlots"
     :daysAct="daysInMonthAct"
     @day="
       (value) => {
-        setDayChosen(value.id)
+        setDayChosen(value)
+        savedDate.setDate(Number(value.value))
         if (value.value) {
           $emit('day', value.value)
         }
