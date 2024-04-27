@@ -33,10 +33,7 @@ const newDate = (value: IDay): Date => {
       props.dateChosen.value.getMonth(),
       0
     )
-    console.log('date fired2', d)
     d.setDate(Number(value.value))
-    console.log('fired2', value)
-    console.log('date fired2', d)
     return d
   }
   if (value.id > 28 && Number(value.value) < 20 && value.value !== null) {

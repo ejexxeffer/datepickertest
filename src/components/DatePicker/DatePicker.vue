@@ -1,5 +1,4 @@
 <script setup lang="ts">
-// import type { IDay } from './utils/UtilTypes'
 import type { IDate, Locales, TCalendarArr } from './DatePickerTypes'
 import { calcArray } from './utils/calcArray'
 import { daysInMonth } from './utils/daysInMonth'
@@ -42,6 +41,7 @@ const daysInMonthAct = ref<number>(0)
 const weekDayNames = ref<string[]>(['none'])
 const arrays = ref<TCalendarArr>(calcArray())
 const setDateChosen = (value: IDate) => {
+  console.log('PYUPUPUPUYPYPYUPUPYPYPUPY')
   dateChosen.value = value
 }
 onMounted(() => {
@@ -110,7 +110,9 @@ watch(emptySlots, (newEmptySlots) => {
 })
 // maybe this watcher don't need with right behaviour
 watch(arrays, (newArrays) => {
+  console.log('pep')
   if (dateChosen.value.id !== saveDayChose(newArrays, day.value).id) {
+    console.log('imhere')
     setDateChosen({
       id: saveDayChose(arrays.value, day.value).id,
       value: new Date(year.value, month.value, day.value)
@@ -139,10 +141,9 @@ watch(arrays, (newArrays) => {
       (value) => {
         setDateChosen(value)
         savedDate = value.value
-        console.log(value.value.getDate())
-        savedDate.setDate(Number(value.value.getDate()))
-        savedDate.setMonth(Number(value.value.getMonth()))
-        savedDate.setFullYear(Number(value.value.getFullYear()))
+        // savedDate.setDate(Number(value.value.getDate()))
+        // savedDate.setMonth(Number(value.value.getMonth()))
+        // savedDate.setFullYear(Number(value.value.getFullYear()))
         if (value.value) {
           $emit('date', savedDate)
         }

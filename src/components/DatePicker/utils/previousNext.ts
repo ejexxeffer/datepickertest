@@ -8,9 +8,6 @@ export const previousNext = (
   const result: number[][] = [[0], [0]]
   if (slots[0]) {
     let previous = daysInMonth(year, month > 0 ? month - 1 : 11)
-    console.log('month', month)
-    console.log('month2', month > 0 ? month - 1 : 11)
-    console.log('previous', previous)
     for (let i = slots[0] - 1; i >= 0; i--) {
       result[0][i] = previous
       previous = previous - 1
