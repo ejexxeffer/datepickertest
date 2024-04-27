@@ -28,14 +28,12 @@ const setStart = (value?: boolean) => {
       change week
     </button>
     <DatePicker
-      :date="date"
       :lang="'ru'"
       :isoWeek="start"
       @date="
         (value) => {
           day = value.getDate()
           date = value
-          console.log('date', value)
         }
       "
     />

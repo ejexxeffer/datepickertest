@@ -27,7 +27,6 @@ const props = withDefaults(
 )
 const newDate = (value: IDay): Date => {
   if (value.id < 8 && Number(value.value) > 20 && value.value !== null) {
-    console.log('fired', value)
     let d = new Date(
       props.dateChosen.value.getFullYear(),
       props.dateChosen.value.getMonth(),
@@ -37,7 +36,6 @@ const newDate = (value: IDay): Date => {
     return d
   }
   if (value.id > 28 && Number(value.value) < 20 && value.value !== null) {
-    console.log('pepe')
     return new Date(
       props.dateChosen.value.getFullYear(),
       props.dateChosen.value.getMonth() + 1,

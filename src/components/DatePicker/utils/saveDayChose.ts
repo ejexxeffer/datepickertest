@@ -3,7 +3,6 @@ import type { IDay, TCalendarArr } from './UtilTypes'
 export const saveDayChose = (arrays: TCalendarArr, day: number) => {
   let rightDay: IDay | undefined = undefined
   let i = 0
-  console.log('day', day)
   while (!rightDay) {
     rightDay = arrays[i].find(({ id, value }) => {
       if (id < 8 && Number(value) < 21 && value !== null) {
@@ -18,7 +17,5 @@ export const saveDayChose = (arrays: TCalendarArr, day: number) => {
     })
     i++
   }
-  console.log('day', day)
-  console.log('rightDay', rightDay)
   return rightDay
 }
