@@ -2,9 +2,6 @@
 import DatePicker from '@/components/DatePicker/DatePicker.vue'
 import { ref } from 'vue'
 const day = ref<number>(0)
-const setDay = (value: number) => {
-  day.value = value
-}
 const date = ref<Date>(new Date(2024, 1))
 const start = ref<boolean>(false)
 const setStart = (value?: boolean) => {
@@ -31,16 +28,16 @@ const setStart = (value?: boolean) => {
       change week
     </button>
     <DatePicker
-      @left="console.log('this is left')"
-      @right="console.log('this is right')"
-      @day="
+      :date="date"
+      :lang="'ru'"
+      :isoWeek="start"
+      @date="
         (value) => {
-          setDay(value)
-          console.log('day', value)
+          day = value.getDate()
+          date = value
+          console.log('date', value)
         }
       "
-      :isoWeek="start"
-      :date="date"
     />
   </main>
 </template>

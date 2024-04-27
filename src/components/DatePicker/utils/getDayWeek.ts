@@ -1,9 +1,10 @@
 export const getDayWeek = (
   year: number,
   month: number,
-  dayOfMonth: number,
-  startOfWeek: boolean
+  day: number,
+  isoWeek: boolean
 ): number => {
-  const day = new Date(year, month, dayOfMonth).getDay()
-  return day > 0 ? day - Number(startOfWeek) : 6
+  //!! isn't actural 'day of week' this is only for calendarArr offset
+  const d = new Date(year, month, day).getDay()
+  return d > 0 ? d - Number(isoWeek) : 6 * Number(isoWeek)
 }

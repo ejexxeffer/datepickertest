@@ -51,9 +51,9 @@ const savedDateDicrement = () => {
   const newDate = new Date(
     savedDate.value.getFullYear(),
     savedDate.value.getMonth(),
-    savedDate.value.getDate()
+    0
   )
-  newDate.setMonth(newDate.getMonth() - 1, savedDate.value.getDate())
+  newDate.setDate(savedDate.value.getDate())
   savedDate.value = newDate
   emit('date', newDate)
 }

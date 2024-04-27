@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import type { IDay } from './utils/UtilTypes'
-import type { TCalendarArr } from './DatePickerTypes'
+// import type { IDay } from './utils/UtilTypes'
+import type { IDate, Locales, TCalendarArr } from './DatePickerTypes'
 import { calcArray } from './utils/calcArray'
 import { daysInMonth } from './utils/daysInMonth'
 import { onMounted, ref, watch } from 'vue'
@@ -10,6 +10,7 @@ import DateInput from './components/DateInput.vue'
 import WeekNames from './components/WeekNames.vue'
 import CalendarNumbers from './components/CalendarNumbers.vue'
 import { saveDayChose } from './utils/saveDayChose'
+import { weekDaysArr } from './utils/weekDaysArr'
 
 const props = withDefaults(
   defineProps<{
@@ -17,7 +18,7 @@ const props = withDefaults(
     isoWeek?: boolean
     before?: boolean
     after?: boolean
-    lang?: string
+    lang?: Locales
   }>(),
   {
     isoWeek: true,
@@ -28,30 +29,23 @@ const props = withDefaults(
 )
 //emtits depricated need to change for one emit with Date
 const emit = defineEmits<{
-  (e: 'left', value: number): void
-  (e: 'right', value: number): void
-  (e: 'day', value: number): void
+  (e: 'date', value: Date): void
 }>()
 const day = ref<number>(0)
 const month = ref<number>(0)
 const year = ref<number>(2022)
 const savedDate = ref<Date>(new Date(props.date))
-const dayChosen = ref<IDay>({ id: 0, value: null })
+const dateChosen = ref<IDate>({ id: 0, value: new Date() })
 const emptySlots = ref<number[]>([0, 0])
 const previousNextArr = ref<number[][]>([[0], [0]])
 const daysInMonthAct = ref<number>(0)
-const namesArr = ref<string[]>(['none'])
+const weekDayNames = ref<string[]>(['none'])
 const arrays = ref<TCalendarArr>(calcArray())
-const setDayChosen = (value: IDay) => {
-  dayChosen.value = value
+const setDateChosen = (value: IDate) => {
+  dateChosen.value = value
 }
 onMounted(() => {
-  if (!props.isoWeek) {
-    namesArr.value = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
-  }
-  if (props.isoWeek) {
-    namesArr.value = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-  }
+  weekDayNames.value = weekDaysArr(props.isoWeek, props.lang)
   savedDate.value = props.date
   day.value = props.date.getDate()
   month.value = props.date.getMonth()
@@ -60,12 +54,7 @@ onMounted(() => {
 watch(
   () => props.isoWeek,
   () => {
-    if (!props.isoWeek) {
-      namesArr.value = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
-    }
-    if (props.isoWeek) {
-      namesArr.value = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-    }
+    weekDayNames.value = weekDaysArr(props.isoWeek, props.lang)
     emptySlots.value = calcEmptySlots(
       daysInMonth(year.value, month.value),
       year.value,
@@ -108,6 +97,7 @@ watch(savedDate, (newSavedDate) => {
     props.isoWeek,
     previousNextArr.value
   )
+  emit('date', savedDate.value)
 })
 watch(emptySlots, (newEmptySlots) => {
   previousNextArr.value = previousNext(newEmptySlots, year.value, month.value)
@@ -120,9 +110,11 @@ watch(emptySlots, (newEmptySlots) => {
 })
 // maybe this watcher don't need with right behaviour
 watch(arrays, (newArrays) => {
-  if (dayChosen.value.id !== saveDayChose(newArrays, day.value).id) {
-    setDayChosen(saveDayChose(arrays.value, day.value))
-    emit('day', day.value)
+  if (dateChosen.value.id !== saveDayChose(newArrays, day.value).id) {
+    setDateChosen({
+      id: saveDayChose(arrays.value, day.value).id,
+      value: new Date(year.value, month.value, day.value)
+    })
   }
 })
 </script>
@@ -136,19 +128,23 @@ watch(arrays, (newArrays) => {
       }
     "
   />
-  <WeekNames :week="namesArr" />
+  <WeekNames :week="weekDayNames" />
   <br />
   <CalendarNumbers
     :arrays="arrays"
-    :day-chosen="dayChosen.id"
+    :date-chosen="dateChosen"
     :empty-slots="emptySlots"
     :daysAct="daysInMonthAct"
-    @day="
+    @date="
       (value) => {
-        setDayChosen(value)
-        savedDate.setDate(Number(value.value))
+        setDateChosen(value)
+        savedDate = value.value
+        console.log(value.value.getDate())
+        savedDate.setDate(Number(value.value.getDate()))
+        savedDate.setMonth(Number(value.value.getMonth()))
+        savedDate.setFullYear(Number(value.value.getFullYear()))
         if (value.value) {
-          $emit('day', value.value)
+          $emit('date', savedDate)
         }
       }
     "
