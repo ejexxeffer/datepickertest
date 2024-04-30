@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { TCalendarArr } from '@/components/DatePicker/DatePickerTypes'
-import { ref } from 'vue'
 interface IDate {
   id: number
   value: Date
