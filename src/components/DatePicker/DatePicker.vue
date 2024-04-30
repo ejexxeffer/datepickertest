@@ -13,7 +13,7 @@ import { weekDaysArr } from './utils/weekDaysArr'
 
 const props = withDefaults(
   defineProps<{
-    date?: Date
+    date: Date
     isoWeek?: boolean
     before?: boolean
     after?: boolean

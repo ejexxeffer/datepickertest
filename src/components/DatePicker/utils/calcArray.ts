@@ -11,7 +11,7 @@ export const calcArray = (
   const result: TCalendarArr = [[{ id: 1, value: null }]]
   for (let i = 0; i < 7; i++) {
     result[i] = []
-    for (let j = 0; j < 5; j++) {
+    for (let j = 0; j < 6; j++) {
       result[i][j] = { id: 0, value: null }
     }
   }
@@ -24,7 +24,7 @@ export const calcArray = (
     const day = getDayWeek(year, month, 1, weekStarted)
     const daysInMonthAct = daysInMonth(year, month)
     let counter = 1
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 6; i++) {
       for (let j = 0; j < 7; j++) {
         if (i * 7 + (j + 1) < 7 && i === 0) {
           result[j][i] = {
@@ -32,7 +32,7 @@ export const calcArray = (
             value: previousNextArr[0][j] ? previousNextArr[0][j] : 0
           }
         }
-        if (counter > daysInMonthAct && i === 4) {
+        if (counter > daysInMonthAct && i >= 4) {
           result[j][i] = {
             id: i * 7 + (j + 1),
             value: previousNextArr[1][counter - daysInMonthAct - 1]
