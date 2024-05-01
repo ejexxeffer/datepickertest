@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { onMounted, ref, watch } from 'vue'
+import { daysInMonth } from '../utils/daysInMonth'
 
 const props = withDefaults(
   defineProps<{
@@ -43,8 +44,25 @@ const savedDateIncrement = () => {
     savedDate.value.getMonth(),
     savedDate.value.getDate()
   )
-  newDate.setMonth(newDate.getMonth() + 1, savedDate.value.getDate())
+  if (
+    daysInMonth(savedDate.value.getFullYear(), savedDate.value.getMonth() + 1) <
+    savedDate.value.getDate()
+  ) {
+    newDate.setMonth(
+      newDate.getMonth() + 1,
+      daysInMonth(savedDate.value.getFullYear(), savedDate.value.getMonth() + 1)
+    )
+  }
+  if (
+    daysInMonth(
+      savedDate.value.getFullYear(),
+      savedDate.value.getMonth() + 1
+    ) >= savedDate.value.getDate()
+  ) {
+    newDate.setMonth(newDate.getMonth() + 1, savedDate.value.getDate())
+  }
   savedDate.value = newDate
+  console.log('value', newDate)
   emit('date', newDate)
 }
 const savedDateDicrement = () => {
@@ -53,8 +71,24 @@ const savedDateDicrement = () => {
     savedDate.value.getMonth(),
     0
   )
-  newDate.setDate(savedDate.value.getDate())
+  if (
+    daysInMonth(savedDate.value.getFullYear(), savedDate.value.getMonth() - 1) <
+    savedDate.value.getDate()
+  ) {
+    newDate.setDate(
+      daysInMonth(savedDate.value.getFullYear(), savedDate.value.getMonth() - 1)
+    )
+  }
+  if (
+    daysInMonth(
+      savedDate.value.getFullYear(),
+      savedDate.value.getMonth() - 1
+    ) >= savedDate.value.getDate()
+  ) {
+    newDate.setDate(savedDate.value.getDate())
+  }
   savedDate.value = newDate
+  console.log('value', newDate)
   emit('date', newDate)
 }
 </script>

@@ -110,9 +110,9 @@ watch(emptySlots, (newEmptySlots) => {
 })
 // maybe this watcher don't need with right behaviour
 watch(arrays, (newArrays) => {
-  if (dateChosen.value.id !== saveDayChose(newArrays, day.value).id) {
+  if (dateChosen.value.id !== Number(saveDayChose(newArrays, day.value)?.id)) {
     setDateChosen({
-      id: saveDayChose(arrays.value, day.value).id,
+      id: Number(saveDayChose(newArrays, day.value)?.id),
       value: new Date(year.value, month.value, day.value)
     })
   }
@@ -137,7 +137,7 @@ watch(arrays, (newArrays) => {
     :daysAct="daysInMonthAct"
     @date="
       (value) => {
-        setDateChosen(value)
+        // setDateChosen(value)
         savedDate = value.value
       }
     "
