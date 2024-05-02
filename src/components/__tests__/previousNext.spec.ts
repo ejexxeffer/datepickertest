@@ -16,7 +16,7 @@ describe('previousNext', () => {
   })
   it('empty slots is 3,3 and month is 0', async () => {
     expect(previousNext([3, 3], 2024, 0)).toEqual([
-      [28, 29, 30],
+      [29, 30, 31],
       [1, 2, 3]
     ])
   })

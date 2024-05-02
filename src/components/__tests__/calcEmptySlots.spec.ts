@@ -12,7 +12,7 @@ describe('calcEmptySlots', () => {
     expect(calcEmptySlots(29, 2024, 1, false, false, true)).toEqual([0, 2])
   })
   it('before and after and week started on Sun', async () => {
-    expect(calcEmptySlots(29, 2024, 1, false, true, true)).toEqual([4, 2])
+    expect(calcEmptySlots(29, 2024, 1, false, true, true)).toEqual([4, 9])
   })
   it('before only and week started on Mon', async () => {
     expect(calcEmptySlots(29, 2024, 1, true, true, false)).toEqual([3, 0])
@@ -21,6 +21,6 @@ describe('calcEmptySlots', () => {
     expect(calcEmptySlots(29, 2024, 1, true, false, true)).toEqual([0, 3])
   })
   it('before and after and week started on Mon', async () => {
-    expect(calcEmptySlots(29, 2024, 1, true, true, true)).toEqual([3, 3])
+    expect(calcEmptySlots(29, 2024, 1, true, true, true)).toEqual([3, 10])
   })
 })

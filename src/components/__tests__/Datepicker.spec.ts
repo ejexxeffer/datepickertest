@@ -36,17 +36,17 @@ describe('Datepicker', () => {
     expect(wrapper.get('[data-test="week"]').find('p').text()).toMatch('Sun')
     wrapper.unmount()
   })
-  it('date is changed', async () => {
+  it('date is changed from parent component', async () => {
     const wrapper = mount(DatePicker, {
       props: { date: new Date(2024, 1) }
     })
     await flushPromises()
-    expect(wrapper.emitted().day[0]).toEqual([1])
+    expect(wrapper.emitted().date[0]).toEqual([new Date(2024, 1)])
     expect(
       Number(
         wrapper
           .get('[data-test="day"]')
-          .findAll('div')[18]
+          .findAll('div')[21]
           .findAll('div')[4]
           .text()
       )
@@ -57,13 +57,13 @@ describe('Datepicker', () => {
       Number(
         wrapper
           .get('[data-test="day"]')
-          .findAll('div')[18]
+          .findAll('div')[21]
           .findAll('div')[4]
           .text()
       )
     ).toEqual(31)
     await flushPromises()
-    expect(wrapper.emitted().day[1]).toEqual([2])
+    expect(wrapper.emitted().date[1]).toEqual([new Date(2022, 2, 2)])
     wrapper.unmount()
   })
   it('emit a day', async () => {
@@ -71,7 +71,7 @@ describe('Datepicker', () => {
       props: { date: new Date(2024, 1) }
     })
     await flushPromises()
-    expect(wrapper.emitted().day[0]).toEqual([1])
+    expect(wrapper.emitted().date[0]).toEqual([new Date(2024, 1)])
     wrapper.unmount()
   })
   it('trigger emit and check to being changed', async () => {
@@ -79,11 +79,20 @@ describe('Datepicker', () => {
       props: { date: new Date(2024, 1) }
     })
     await flushPromises()
-    expect(wrapper.emitted().day[0]).toEqual([1])
+    expect(wrapper.emitted().date[0]).toEqual([new Date(2024, 1)])
     await flushPromises()
+    expect(
+      Number(
+        wrapper
+          .get('[data-test="day"]')
+          .findAll('div')[0]
+          .findAll('div')[1]
+          .text()
+      )
+    ).toEqual(5)
     //prettier-ignore
     await wrapper.get('[data-test="day"]').findAll('div')[0].findAll('div')[1].trigger('click')
-    expect(wrapper.emitted().day[1]).toEqual([5])
+    expect(wrapper.emitted().date[1]).toEqual([new Date(2024, 1, 5)])
     wrapper.unmount()
   })
   it('trigger arrow and check date was changed in component', async () => {
@@ -96,7 +105,7 @@ describe('Datepicker', () => {
       Number(
         wrapper
           .get('[data-test="day"]')
-          .findAll('div')[18]
+          .findAll('div')[21]
           .findAll('div')[0]
           .text()
       )
