@@ -42,26 +42,12 @@ describe('Datepicker', () => {
     })
     await flushPromises()
     expect(wrapper.emitted().date[0]).toEqual([new Date(2024, 1)])
-    expect(
-      Number(
-        wrapper
-          .get('[data-test="day"]')
-          .findAll('div')[21]
-          .findAll('div')[4]
-          .text()
-      )
-    ).toEqual(29)
+    //prettier-ignore
+    expect(Number(wrapper.get('[data-test="day"]').findAll('div')[21].findAll('div')[4].text())).toEqual(29)
     await wrapper.setProps({ date: new Date(2022, 2, 2) })
     await flushPromises()
-    expect(
-      Number(
-        wrapper
-          .get('[data-test="day"]')
-          .findAll('div')[21]
-          .findAll('div')[4]
-          .text()
-      )
-    ).toEqual(31)
+    //prettier-ignore
+    expect(Number(wrapper.get('[data-test="day"]').findAll('div')[21].findAll('div')[4].text())).toEqual(31)
     await flushPromises()
     expect(wrapper.emitted().date[1]).toEqual([new Date(2022, 2, 2)])
     wrapper.unmount()
@@ -81,15 +67,8 @@ describe('Datepicker', () => {
     await flushPromises()
     expect(wrapper.emitted().date[0]).toEqual([new Date(2024, 1)])
     await flushPromises()
-    expect(
-      Number(
-        wrapper
-          .get('[data-test="day"]')
-          .findAll('div')[0]
-          .findAll('div')[1]
-          .text()
-      )
-    ).toEqual(5)
+    //prettier-ignore
+    expect(Number(wrapper.get('[data-test="day"]').findAll('div')[0].findAll('div')[1].text())).toEqual(5)
     //prettier-ignore
     await wrapper.get('[data-test="day"]').findAll('div')[0].findAll('div')[1].trigger('click')
     expect(wrapper.emitted().date[1]).toEqual([new Date(2024, 1, 5)])
@@ -101,29 +80,12 @@ describe('Datepicker', () => {
     })
     await flushPromises()
     //prettier-ignore
-    expect(
-      Number(
-        wrapper
-          .get('[data-test="day"]')
-          .findAll('div')[21]
-          .findAll('div')[0]
-          .text()
-      )
-    ).toEqual(1)
-    await wrapper
-      .get('[data-test="head"]')
-      .findAll('button')[0]
-      .trigger('click')
+    expect(Number(wrapper.get('[data-test="day"]').findAll('div')[21].findAll('div')[0].text())).toEqual(1)
+    //prettier-ignore
+    await wrapper.get('[data-test="head"]').findAll('button')[0].trigger('click')
     await flushPromises()
-    expect(
-      Number(
-        wrapper
-          .get('[data-test="day"]')
-          .findAll('div')[0]
-          .findAll('div')[0]
-          .text()
-      )
-    ).toEqual(1)
+    //prettier-ignore
+    expect(Number(wrapper.get('[data-test="day"]').findAll('div')[0].findAll('div')[0].text())).toEqual(1)
     wrapper.unmount()
   })
 })

@@ -9,7 +9,6 @@ import DateInput from './components/DateInput.vue'
 import WeekNames from './components/WeekNames.vue'
 import CalendarNumbers from './components/CalendarNumbers.vue'
 import { saveDayChose } from './utils/saveDayChose'
-import { weekDaysArr } from './utils/weekDaysArr'
 
 const props = withDefaults(
   defineProps<{
@@ -27,7 +26,6 @@ const props = withDefaults(
     lang: 'en'
   }
 )
-//emtits depricated need to change for one emit with Date
 const emit = defineEmits<{
   (e: 'date', value: Date): void
 }>()
@@ -39,13 +37,11 @@ const dateChosen = ref<IDate>({ id: 0, value: new Date() })
 const emptySlots = ref<number[]>([0, 0])
 const previousNextArr = ref<number[][]>([[0], [0]])
 const daysInMonthAct = ref<number>(0)
-const weekDayNames = ref<string[]>(['none'])
 const arrays = ref<TCalendarArr>(calcArray())
 const setDateChosen = (value: IDate) => {
   dateChosen.value = value
 }
 onMounted(() => {
-  weekDayNames.value = weekDaysArr(props.isoWeek, props.lang)
   savedDate.value = props.date
   day.value = props.date.getDate()
   month.value = props.date.getMonth()
@@ -54,7 +50,6 @@ onMounted(() => {
 watch(
   () => props.isoWeek,
   () => {
-    weekDayNames.value = weekDaysArr(props.isoWeek, props.lang)
     emptySlots.value = calcEmptySlots(
       daysInMonth(year.value, month.value),
       year.value,
@@ -108,7 +103,6 @@ watch(emptySlots, (newEmptySlots) => {
     previousNextArr.value
   )
 })
-// maybe this watcher don't need with right behaviour
 watch(arrays, (newArrays) => {
   if (dateChosen.value.id !== Number(saveDayChose(newArrays, day.value)?.id)) {
     setDateChosen({
@@ -128,7 +122,7 @@ watch(arrays, (newArrays) => {
       }
     "
   />
-  <WeekNames :week="weekDayNames" />
+  <WeekNames :iso-week="$props.isoWeek" :lang="$props.lang" />
   <br />
   <CalendarNumbers
     :arrays="arrays"
@@ -137,7 +131,6 @@ watch(arrays, (newArrays) => {
     :daysAct="daysInMonthAct"
     @date="
       (value) => {
-        // setDateChosen(value)
         savedDate = value.value
       }
     "
