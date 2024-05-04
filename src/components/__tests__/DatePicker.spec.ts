@@ -3,6 +3,26 @@ import { flushPromises, mount } from '@vue/test-utils'
 import DatePicker from '@/components/DatePicker/DatePicker.vue'
 
 describe('Datepicker', () => {
+  it('lang is change', async () => {
+    const wrapper = mount(DatePicker, {
+      props: { date: new Date(2024, 1, 1), lang: 'en' }
+    })
+    await flushPromises()
+    expect(wrapper.get('[data-test="week"]').find('p').text()).toMatch('Mon')
+    expect(
+      wrapper.get('[data-test="head"]').find('div').findAll('p')[0].text()
+    ).toMatch('Feb')
+    await wrapper.setProps({ lang: 'ru' })
+    await flushPromises()
+    expect(wrapper.get('[data-test="week"]').find('p').text()).toMatch('пн')
+    expect(
+      wrapper.get('[data-test="head"]').find('div').findAll('p')[0].text()
+    ).toMatch('февр.')
+    expect(
+      wrapper.get('[data-test="head"]').find('div').findAll('p')[1].text()
+    ).toMatch('2024')
+    wrapper.unmount()
+  })
   it('renders properly week started 1', async () => {
     const wrapper = mount(DatePicker, { props: { date: new Date(2024, 1) } })
     await flushPromises()

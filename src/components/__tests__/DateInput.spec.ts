@@ -110,4 +110,19 @@ describe('DateInput', () => {
     ).toMatch('2024')
     wrapper.unmount()
   })
+  it('lang is change', async () => {
+    const wrapper = mount(DateInput, {
+      props: { date: new Date(2024, 1, 1), lang: 'en' }
+    })
+    await flushPromises()
+    await wrapper.setProps({ lang: 'ru' })
+    await flushPromises()
+    expect(
+      wrapper.get('[data-test="head"]').find('div').findAll('p')[0].text()
+    ).toMatch('февр.')
+    expect(
+      wrapper.get('[data-test="head"]').find('div').findAll('p')[1].text()
+    ).toMatch('2024')
+    wrapper.unmount()
+  })
 })
