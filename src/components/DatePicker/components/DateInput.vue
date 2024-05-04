@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { onMounted, ref, watch } from 'vue'
 import { daysInMonth } from '../utils/daysInMonth'
+import { getMonthName } from '../utils/getMonthName'
+import type { Locales } from './DateInputTypes'
 
 const props = withDefaults(
   defineProps<{
@@ -8,23 +10,28 @@ const props = withDefaults(
     controlsIsShow?: boolean
     inputIsEnabled?: boolean
     isShow?: boolean
-    lang?: string
+    lang: Locales
   }>(),
   {
     isShow: true,
     controlsIsShow: true,
-    inputIsEnabled: true,
-    lang: 'en'
+    inputIsEnabled: true
   }
 )
 const emit = defineEmits<{
   (e: 'date', value: Date): void
 }>()
 const savedDate = ref<Date>(new Date(props.date))
+const monthName = ref<string>('')
 onMounted(() => {
   savedDate.value.setDate(props.date.getDate())
   savedDate.value.setFullYear(props.date.getFullYear())
   savedDate.value.setMonth(props.date.getMonth())
+  monthName.value = getMonthName(
+    props.date.getFullYear(),
+    props.date.getMonth(),
+    props.lang
+  )
 })
 watch(
   () => {
@@ -35,6 +42,24 @@ watch(
     savedDate.value.setDate(props.date.getDate())
     savedDate.value.setFullYear(props.date.getFullYear())
     savedDate.value.setMonth(props.date.getMonth())
+    monthName.value = getMonthName(
+      props.date.getFullYear(),
+      props.date.getMonth(),
+      props.lang
+    )
+  },
+  { deep: true }
+)
+watch(
+  () => {
+    props.lang
+  },
+  () => {
+    monthName.value = getMonthName(
+      props.date.getFullYear(),
+      props.date.getMonth(),
+      props.lang
+    )
   },
   { deep: true }
 )
@@ -61,8 +86,7 @@ const savedDateIncrement = () => {
   ) {
     newDate.setMonth(newDate.getMonth() + 1, savedDate.value.getDate())
   }
-  savedDate.value = newDate
-  console.log('value', newDate)
+  // savedDate.value = newDate
   emit('date', newDate)
 }
 const savedDateDicrement = () => {
@@ -99,20 +123,42 @@ const savedDateDicrement = () => {
       @click="savedDateDicrement()"
       :class="[props.controlsIsShow ? 'text-cyan-600' : '']"
     >
-      left
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="currentColor"
+        class="h-6 w-6"
+      >
+        <path
+          fill-rule="evenodd"
+          d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25Zm-4.28 9.22a.75.75 0 0 0 0 1.06l3 3a.75.75 0 1 0 1.06-1.06l-1.72-1.72h5.69a.75.75 0 0 0 0-1.5h-5.69l1.72-1.72a.75.75 0 0 0-1.06-1.06l-3 3Z"
+          clip-rule="evenodd"
+        />
+      </svg>
     </button>
     <div
       class="flex justify-between gap-x-2"
       :class="[props.inputIsEnabled ? 'text-cyan-600' : '']"
     >
-      <p>{{ savedDate.getMonth() }}</p>
+      <p>{{ monthName }}</p>
       <p>{{ savedDate.getFullYear() }}</p>
     </div>
     <button
       @click="savedDateIncrement()"
       :class="[props.controlsIsShow ? 'text-cyan-600' : '']"
     >
-      right
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="currentColor"
+        class="h-6 w-6"
+      >
+        <path
+          fill-rule="evenodd"
+          d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25Zm4.28 10.28a.75.75 0 0 0 0-1.06l-3-3a.75.75 0 1 0-1.06 1.06l1.72 1.72H8.25a.75.75 0 0 0 0 1.5h5.69l-1.72 1.72a.75.75 0 1 0 1.06 1.06l3-3Z"
+          clip-rule="evenodd"
+        />
+      </svg>
     </button>
   </div>
 </template>

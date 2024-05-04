@@ -1,11 +1,16 @@
 <script setup lang="ts">
 import DatePicker from '@/components/DatePicker/DatePicker.vue'
 import { ref } from 'vue'
+import type { Locales } from './components/DatePicker/DatePickerTypes'
 const day = ref<number>(0)
 const date = ref<Date>(new Date())
 const start = ref<boolean>(false)
-const setStart = (value?: boolean) => {
+const setStart = () => {
   start.value = !start.value
+}
+const lang = ref<Locales>('en')
+const setLang = () => {
+  lang.value = lang.value === 'en' ? 'ru' : 'en'
 }
 </script>
 
@@ -17,7 +22,7 @@ const setStart = (value?: boolean) => {
   <main>
     <p v-if="day">This day was choosen: {{ day }}</p>
     <button
-      class="h-6 w-32 bg-slate-600"
+      class="mr-5 h-6 w-28 bg-slate-600"
       @click="
         () => {
           setStart()
@@ -27,9 +32,20 @@ const setStart = (value?: boolean) => {
     >
       change week
     </button>
+    <button
+      class="h-6 w-28 bg-slate-600"
+      @click="
+        () => {
+          setLang()
+          console.log(lang)
+        }
+      "
+    >
+      change lang
+    </button>
     <DatePicker
       :date="date"
-      :lang="'ru'"
+      :lang="lang"
       :isoWeek="start"
       @date="
         (value) => {

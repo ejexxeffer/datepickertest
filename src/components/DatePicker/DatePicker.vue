@@ -32,6 +32,7 @@ const emit = defineEmits<{
 const day = ref<number>(0)
 const month = ref<number>(0)
 const year = ref<number>(2022)
+const savedLang = ref<Locales>('en')
 const savedDate = ref<Date>(new Date(props.date))
 const dateChosen = ref<IDate>({ id: 0, value: new Date() })
 const emptySlots = ref<number[]>([0, 0])
@@ -46,6 +47,7 @@ onMounted(() => {
   day.value = props.date.getDate()
   month.value = props.date.getMonth()
   year.value = props.date.getFullYear()
+  savedLang.value = props.lang
 })
 watch(
   () => props.isoWeek,
@@ -69,6 +71,12 @@ watch(
     year.value = props.date.getFullYear()
   },
   { deep: true }
+)
+watch(
+  () => props.lang,
+  () => {
+    savedLang.value = props.lang
+  }
 )
 watch(savedDate, (newSavedDate) => {
   day.value = newSavedDate.getDate()
@@ -116,13 +124,14 @@ watch(arrays, (newArrays) => {
 <template>
   <DateInput
     :date="savedDate"
+    :lang="savedLang"
     @date="
       (value) => {
         savedDate = value
       }
     "
   />
-  <WeekNames :iso-week="$props.isoWeek" :lang="$props.lang" />
+  <WeekNames :iso-week="$props.isoWeek" :lang="savedLang" />
   <br />
   <CalendarNumbers
     :arrays="arrays"

@@ -7,12 +7,11 @@ const props = withDefaults(
   defineProps<{
     isoWeek: boolean
     isShow?: boolean
-    lang?: Locales
+    lang: Locales
   }>(),
   {
     isoWeek: true,
-    isShow: true,
-    lang: 'en'
+    isShow: true
   }
 )
 const weekNames = ref<string[]>(['none'])
@@ -24,6 +23,15 @@ watch(
   () => {
     weekNames.value = weekDaysArr(props.isoWeek, props.lang)
   }
+)
+watch(
+  () => {
+    props.lang
+  },
+  () => {
+    weekNames.value = weekDaysArr(props.isoWeek, props.lang)
+  },
+  { deep: true }
 )
 </script>
 
