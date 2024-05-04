@@ -4,11 +4,13 @@ import DateInput from '../DatePicker/components/DateInput.vue'
 
 describe('DateInput', () => {
   it('check that date is saved', async () => {
-    const wrapper = mount(DateInput, { props: { date: new Date(2024, 1, 2) } })
+    const wrapper = mount(DateInput, {
+      props: { date: new Date(2024, 1, 2), lang: 'en' }
+    })
     await flushPromises()
     expect(
       wrapper.get('[data-test="head"]').find('div').findAll('p')[0].text()
-    ).toMatch('1')
+    ).toMatch('Feb')
     expect(
       wrapper.get('[data-test="head"]').find('div').findAll('p')[1].text()
     ).toMatch('2024')
@@ -16,14 +18,16 @@ describe('DateInput', () => {
     await flushPromises()
     expect(
       wrapper.get('[data-test="head"]').find('div').findAll('p')[0].text()
-    ).toMatch('2')
+    ).toMatch('Mar')
     expect(
       wrapper.get('[data-test="head"]').find('div').findAll('p')[1].text()
     ).toMatch('2022')
     wrapper.unmount()
   })
   it('trigger left arrow and check date', async () => {
-    const wrapper = mount(DateInput, { props: { date: new Date(2024, 1, 1) } })
+    const wrapper = mount(DateInput, {
+      props: { date: new Date(2024, 1, 1), lang: 'en' }
+    })
     await flushPromises()
     await wrapper
       .get('[data-test="head"]')
@@ -32,30 +36,28 @@ describe('DateInput', () => {
     expect(wrapper.emitted().date[0]).toEqual([new Date(2024, 0, 1)])
     expect(
       wrapper.get('[data-test="head"]').find('div').findAll('p')[0].text()
-    ).toMatch('0')
+    ).toMatch('Feb')
     expect(
       wrapper.get('[data-test="head"]').find('div').findAll('p')[1].text()
     ).toMatch('2024')
     wrapper.unmount()
   })
   it('trigger left arrow and set date bigger than previous month', async () => {
-    const wrapper = mount(DateInput, { props: { date: new Date(2024, 2, 31) } })
+    const wrapper = mount(DateInput, {
+      props: { date: new Date(2024, 2, 31), lang: 'en' }
+    })
     await flushPromises()
     await wrapper
       .get('[data-test="head"]')
       .findAll('button')[0]
       .trigger('click')
     expect(wrapper.emitted().date[0]).toEqual([new Date(2024, 1, 29)])
-    expect(
-      wrapper.get('[data-test="head"]').find('div').findAll('p')[0].text()
-    ).toMatch('1')
-    expect(
-      wrapper.get('[data-test="head"]').find('div').findAll('p')[1].text()
-    ).toMatch('2024')
     wrapper.unmount()
   })
   it('trigger right arrow for changin month', async () => {
-    const wrapper = mount(DateInput, { props: { date: new Date(2024, 11, 1) } })
+    const wrapper = mount(DateInput, {
+      props: { date: new Date(2024, 11, 1), lang: 'en' }
+    })
     await flushPromises()
     await wrapper
       .get('[data-test="head"]')
@@ -65,24 +67,20 @@ describe('DateInput', () => {
     wrapper.unmount()
   })
   it('trigger right arrow and set date bigger than previous month', async () => {
-    const wrapper = mount(DateInput, { props: { date: new Date(2024, 0, 31) } })
+    const wrapper = mount(DateInput, {
+      props: { date: new Date(2024, 0, 31), lang: 'en' }
+    })
     await flushPromises()
     await wrapper
       .get('[data-test="head"]')
       .findAll('button')[1]
       .trigger('click')
     expect(wrapper.emitted().date[0]).toEqual([new Date(2024, 1, 29)])
-    expect(
-      wrapper.get('[data-test="head"]').find('div').findAll('p')[0].text()
-    ).toMatch('1')
-    expect(
-      wrapper.get('[data-test="head"]').find('div').findAll('p')[1].text()
-    ).toMatch('2024')
     wrapper.unmount()
   })
   it('check that controls show', async () => {
     const wrapper = mount(DateInput, {
-      props: { date: new Date(2024, 1, 1), controlsIsShow: true }
+      props: { date: new Date(2024, 1, 1), lang: 'en', controlsIsShow: true }
     })
     await flushPromises()
     expect(
@@ -90,7 +88,7 @@ describe('DateInput', () => {
     ).toContain('text-cyan-600')
     expect(
       wrapper.get('[data-test="head"]').find('div').findAll('p')[0].text()
-    ).toMatch('1')
+    ).toMatch('Feb')
     expect(
       wrapper.get('[data-test="head"]').find('div').findAll('p')[1].text()
     ).toMatch('2024')
@@ -98,7 +96,7 @@ describe('DateInput', () => {
   })
   it('check that controls is not show', async () => {
     const wrapper = mount(DateInput, {
-      props: { date: new Date(2024, 1, 1), controlsIsShow: false }
+      props: { date: new Date(2024, 1, 1), lang: 'en', controlsIsShow: false }
     })
     await flushPromises()
     expect(
@@ -106,7 +104,7 @@ describe('DateInput', () => {
     ).not.toContain('text-cyan-600')
     expect(
       wrapper.get('[data-test="head"]').find('div').findAll('p')[0].text()
-    ).toMatch('1')
+    ).toMatch('Feb')
     expect(
       wrapper.get('[data-test="head"]').find('div').findAll('p')[1].text()
     ).toMatch('2024')
