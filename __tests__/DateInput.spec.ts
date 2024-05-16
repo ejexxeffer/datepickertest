@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { flushPromises, mount } from '@vue/test-utils'
-import DateInput from '../DatePicker/components/DateInput.vue'
+import DateInput from '@/components/DatePicker/components/DateInput.vue'
 
 describe('DateInput', () => {
   it('check that date is saved', async () => {

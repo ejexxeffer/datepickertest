@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { flushPromises, mount } from '@vue/test-utils'
-import WeekNames from '../DatePicker/components/WeekNames.vue'
+import WeekNames from '@/components/DatePicker/components/WeekNames.vue'
 
 describe('Datepicker', () => {
   it('renders properly week started 1', async () => {

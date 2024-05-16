@@ -1,19 +1,29 @@
 {
   "extends": "@vue/tsconfig/tsconfig.dom.json",
-  "include": ["env.d.ts", "./src/**/*", "./src/**/*.vue", "./src/*.ext"],
+  "include": [
+    "env.d.ts",
+    "src/**/*.d.ts",
+    "./src/**/*",
+    "./src/**/*.vue",
+    "/src/**/*.vue",
+    "src/**/*.vue",
+    "src/**/*.tsx",
+    "./src/*.ext",
+    "__tests__",
+    "lib"
+  ],
   "exclude": ["src/**/__tests__/*"],
-  // "files": ["shims.d.ts"],
   "compilerOptions": {
     "noEmit": true,
     "allowJs": true,
-    "target": "ES2021",
+    "target": "ESNext",
     "isolatedModules": true,
     "composite": true,
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
     "skipLibCheck": true,
-    "baseUrl": ".",
+    "baseUrl": "./",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["src/*"]
     }
   }
 }

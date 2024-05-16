@@ -2,6 +2,7 @@
 import DatePicker from '@/components/DatePicker/DatePicker.vue'
 import { ref } from 'vue'
 import type { Locales } from './components/DatePicker/DatePickerTypes'
+// import DatePicker from 'datepickertest'
 const day = ref<number>(0)
 const date = ref<Date>(new Date(2024, 0, 1))
 const start = ref<boolean>(false)

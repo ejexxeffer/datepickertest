@@ -7,6 +7,8 @@ import mkcert from 'vite-plugin-mkcert'
 import vue from '@vitejs/plugin-vue'
 import dns from 'dns'
 import eslintPlugin from 'vite-plugin-eslint2'
+import dts from 'vite-plugin-dts'
+import { resolve } from 'path'
 
 dns.setDefaultResultOrder('verbatim')
 export default defineConfig({
@@ -38,12 +40,30 @@ export default defineConfig({
     exclude: [...configDefaults.exclude, 'e2e/*'],
     root: fileURLToPath(new URL('./', import.meta.url))
   },
-  plugins: [eslintPlugin({ fix: true }), mkcert(), vue()],
+  plugins: [
+    eslintPlugin({ fix: true }),
+    mkcert(),
+    vue(),
+    dts({
+      rollupTypes: true,
+      insertTypesEntry: true
+    })
+  ],
   build: {
+    lib: {
+      formats: ['es', 'umd'],
+      entry: resolve(__dirname, 'src/components/DatePicker/index.ts'),
+      name: 'datepickertest',
+      fileName: (format) => `datepickertest.${format}.ts`
+    },
+    emptyOutDir: true,
     rollupOptions: {
-      input: 'src/main.js',
+      external: ['vue'],
       output: {
-        intro: 'console.log("Запуск Vite!");'
+        exports: 'named',
+        globals: {
+          vue: 'Vue'
+        }
       }
     }
   },

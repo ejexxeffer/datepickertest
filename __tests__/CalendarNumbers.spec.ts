@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import { flushPromises, mount } from '@vue/test-utils'
 import CalendarNumbers from '@/components/DatePicker/components/CalendarNumbers.vue'
-import type { TCalendarArr } from '../DatePicker/utils/UtilTypes'
+import type { TCalendarArr } from '@/components/DatePicker/utils/UtilTypes'
 
 const rightData: TCalendarArr = [
   [
