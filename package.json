@@ -33,7 +33,6 @@
   "dependencies": {
     "@typescript-eslint/eslint-plugin": "^7.3.1",
     "@typescript-eslint/parser": "^7.3.1",
-    "datepickertest": "datepickertest-0.0.1.tgz",
     "vue": "^3.4.21"
   },
   "devDependencies": {
